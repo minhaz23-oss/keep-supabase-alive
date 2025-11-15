@@ -1,0 +1,28 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    - cron: "0 */2 * * *" # every 2 days
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install node-fetch
+
+      - name: Run ping script
+        run: node ping.js
+        env:
+          PING_URL: https://zlgeeqociqnuvkmxtdex.supabase.co/rest/v1/ping?select=1&limit=1
+          SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZ2VlcW9jaXFudXZrbXh0ZGV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTczMTA0OTIsImV4cCI6MjA3Mjg4NjQ5Mn0._h4KHXw0n-WCj424hdweGt1PFCLZAkrxypktP_wqwyk
